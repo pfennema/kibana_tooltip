@@ -17,7 +17,7 @@ export class TooltipPlugin implements Plugin<TooltipPluginSetup, TooltipPluginSt
   }
 
   public setup(core: CoreSetup) {
-    this.logger.debug('tooltip: Setup');
+    this.logger.info('tooltip: Setup');
     const router = core.http.createRouter();
 
     // Register server side APIs
@@ -27,7 +27,7 @@ export class TooltipPlugin implements Plugin<TooltipPluginSetup, TooltipPluginSt
   }
 
   public start(core: CoreStart) {
-    this.logger.debug('tooltip: Started');
+    this.logger.info('tooltip: Started');
     return {};
   }
 

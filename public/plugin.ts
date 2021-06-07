@@ -7,16 +7,12 @@ import axios from 'axios';
 export var posX = 0;
 export var posY = 0;
 export var dd = {};        // global data dictionary for current page, works only when a index pattern is shown on page (e.g. discover page)
-export var index = null;
 
-// import $ from "jquery";
-
-function get_data_dictionary( index,event )
+function get_data_dictionary()
 {
-  axios.get(`/api/tooltip/get_data_dictionary/${index}`)
+  axios.get(`/api/tooltip/get_data_dictionary/`)
   .then((response) => {
      dd = response.data;
-     show_tooltip(event);
   })
   .catch((error) => {
     if (error.response){
@@ -31,7 +27,8 @@ function get_data_dictionary( index,event )
 
 export class TooltipPlugin implements Plugin<TooltipPluginSetup, TooltipPluginStart> {
   public setup(core: CoreSetup): TooltipPluginSetup {
-  
+  console.log("Setup tooltip, get data dictionary");
+    get_data_dictionary();
   }
 
   public start(core: CoreStart): TooltipPluginStart {
@@ -53,18 +50,7 @@ export class TooltipPlugin implements Plugin<TooltipPluginSetup, TooltipPluginSt
       if (!event.altKey) {
         return;
       }
-      // Check if we already are able to get the index
-      var query_selector = document.querySelector("button[data-test-subj='indexPattern-switch-link']");
-      if (query_selector == null) {
-        return;
-      }
-      // check if index pattern has been changed, and get new data dictionary
-      if (query_selector.title != index) {
-        index = query_selector.title;
-        get_data_dictionary(index,event );
-      } else {
-        show_tooltip(event);
-      }
+      show_tooltip(event);
     }
 
     window.addEventListener('click', onAltClick);
